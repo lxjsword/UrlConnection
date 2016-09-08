@@ -1,0 +1,240 @@
+<!doctype html>
+<html lang="en">
+<head data-gjch="/im/list/chat">
+    <meta charset="UTF-8">
+    <title>赶集叮咚</title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta http-equiv="Pragma" content="no-cache">
+    <link rel="stylesheet" href="http://sta.ganjistatic1.com/ng/app/im/windBell/css/normalize.css">
+    <link rel="stylesheet" href="http://sta.ganjistatic1.com/ng/app/im/windBell/css/chat.css?_v=1400555131027">
+</head>
+<body>
+    <div id="dialogue-page" data-role="page" data-page-module="app/im/windBell/js/page/DialoguePage" data-page-initial="true" style="display: none">
+		<script id="dialogue-msg-tpl" type="text/template">
+		<% if(!!msgs.post && msgs.post.post_title){ %>
+			<li id="dialogue-relative-post">
+				<div class="post-data">
+					<p><%= msgs.post.post_title%></p>
+				</div>
+			</li>
+		<% } %>
+		<% if(msgs.length){ %>
+		<li class="msg-list msg-tip">
+			<div class="msg-data">
+				<%= formatDate(msgs[msgs.length - 1].recv_msg_time) %>
+			</div>
+		</li>
+		<% _.each(msgs, function(msg){ %>
+			<% if(msg.from_user_id.toString() === G.im.userInfo.user_id.toString()){ %>
+			<li class="msg-list msg-sender">
+				<div class="msg-data">
+					<p>
+						<%= msg.content %>
+					</p>
+					<em class="icon icon-fail" style="display:none"></em>
+					<em class="arrow"></em>
+				</div>
+			</li>
+			<% } else { %>
+			<li class="msg-list msg-reciever">
+				<div class="msg-data">
+					<p>
+						<%= msg.content %>
+					</p>
+					<em class="arrow"></em>
+				</div>
+			</li>			
+			<% } %>
+		<% }); %>
+		<% } %>
+		</script>
+		<script id="dialogue-easy-msg-tpl" type="text/template">
+		<% _.each(msgs, function(msg, index){ %>
+		<li id="dialogue-easy-msg-<%= msg.id%>" class="diy-list" data-gjalog="/im/chat/short_reply<%= msg.index%>@atype=click">
+			<div class="list-text">
+				<%= msg.content %>
+			</div>
+			<em class="icon icon-del"></em>
+		</li>
+		<% }); %>
+		</script>
+        <header class="nav clearfix">
+            <div class="back">
+                <span id="dialogue-back-msg-box" href="list.html" class="back-link" data-page-back><em class="icon icon-back"></em></span>
+            </div>
+            <div class="avatar">
+                <div class="avatar-content">
+                    <span id="dialogue_head_pic" class="user-avatar icon icon-head-online36_36"></span>
+                    <div id="dialogue-contact-name" class="user-name"></div>
+                </div>
+            </div>
+        </header>
+		<div id="dialogue-wrapper" class="message" style="position:absolute;width:100%;top:44px;bottom:50px">
+			<ul class="msg-box" style="width:100%">
+				<li id="dialogue-pull-down" class="post-list refresh" style="display: none;">
+					<p><span><em class="icon icon-refresh"></em><span class="refresh-text" id="dialogue-pull-down-label">下拉查看更多</span></span></p>
+				</li>
+			</ul>
+		</div>
+		<footer>
+			<div class="send-form">
+				<div class="outter">
+					<div id="dialogue-easy-msg" class="msg-auto">
+						<em class="icon icon-auto"></em>
+					</div>
+					<div class="msg-input">
+						<input id="dialogue-msg-txt" type="text" name="content" class="input" placeholder="请输入内容" value="">
+					</div>
+					<div class="msg-send">
+						<a tabIndex="-1" id="dialogue-send-msg" href="javascript:void(0)" class="send-btn">发送</a>
+					</div>
+				</div>
+			</div>
+			<div class="msg-diy">
+				<ul id="dialogue-easy-msg-ctn">
+					<li id="dialogue-add-easy-msg" class="diy-list list-curtorm">
+						<div class="list-text">
+							自定义回复
+						</div>
+						<em class="icon icon-custorm"></em>
+					</li>
+				</ul>
+			</div>
+		</footer>
+		<div id="mask"></div>
+		<div id="dialogue-add-easy-msg-ctn" class="add-msg-diy" style="display:none">
+			<div class="msg-diy-action clearfix">
+				<em class="icon icon-del"></em><span class="msg-diy-finish">完成</span>
+			</div>
+			<div class="msg-diy-input-box">
+				<textarea id="dialogue-new-easy-msg-text" class="msg-diy-input" placeholder="请输入自定义回复，40字以内哦"></textarea>
+			</div>
+			<span id="dialogue-easy-msg-word-count" class="msg-diy-counter">40</span>
+		</div>
+    </div>
+    <script src="http://sta.ganji.com/cgi/ng_sta.php?dirs=app/windbell,app/im&page=app/im/windBell/js/App"></script>
+</body>
+</html>
+<!doctype html>
+<html lang="en">
+<head data-gjch="/im/list/chat">
+    <meta charset="UTF-8">
+    <title>赶集叮咚</title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta http-equiv="Pragma" content="no-cache">
+    <link rel="stylesheet" href="http://sta.ganjistatic1.com/ng/app/im/windBell/css/normalize.css">
+    <link rel="stylesheet" href="http://sta.ganjistatic1.com/ng/app/im/windBell/css/chat.css?_v=1400555131027">
+</head>
+<body>
+    <div id="dialogue-page" data-role="page" data-page-module="app/im/windBell/js/page/DialoguePage" data-page-initial="true" style="display: none">
+		<script id="dialogue-msg-tpl" type="text/template">
+		<% if(!!msgs.post && msgs.post.post_title){ %>
+			<li id="dialogue-relative-post">
+				<div class="post-data">
+					<p><%= msgs.post.post_title%></p>
+				</div>
+			</li>
+		<% } %>
+		<% if(msgs.length){ %>
+		<li class="msg-list msg-tip">
+			<div class="msg-data">
+				<%= formatDate(msgs[msgs.length - 1].recv_msg_time) %>
+			</div>
+		</li>
+		<% _.each(msgs, function(msg){ %>
+			<% if(msg.from_user_id.toString() === G.im.userInfo.user_id.toString()){ %>
+			<li class="msg-list msg-sender">
+				<div class="msg-data">
+					<p>
+						<%= msg.content %>
+					</p>
+					<em class="icon icon-fail" style="display:none"></em>
+					<em class="arrow"></em>
+				</div>
+			</li>
+			<% } else { %>
+			<li class="msg-list msg-reciever">
+				<div class="msg-data">
+					<p>
+						<%= msg.content %>
+					</p>
+					<em class="arrow"></em>
+				</div>
+			</li>			
+			<% } %>
+		<% }); %>
+		<% } %>
+		</script>
+		<script id="dialogue-easy-msg-tpl" type="text/template">
+		<% _.each(msgs, function(msg, index){ %>
+		<li id="dialogue-easy-msg-<%= msg.id%>" class="diy-list" data-gjalog="/im/chat/short_reply<%= msg.index%>@atype=click">
+			<div class="list-text">
+				<%= msg.content %>
+			</div>
+			<em class="icon icon-del"></em>
+		</li>
+		<% }); %>
+		</script>
+        <header class="nav clearfix">
+            <div class="back">
+                <span id="dialogue-back-msg-box" href="list.html" class="back-link" data-page-back><em class="icon icon-back"></em></span>
+            </div>
+            <div class="avatar">
+                <div class="avatar-content">
+                    <span id="dialogue_head_pic" class="user-avatar icon icon-head-online36_36"></span>
+                    <div id="dialogue-contact-name" class="user-name"></div>
+                </div>
+            </div>
+        </header>
+		<div id="dialogue-wrapper" class="message" style="position:absolute;width:100%;top:44px;bottom:50px">
+			<ul class="msg-box" style="width:100%">
+				<li id="dialogue-pull-down" class="post-list refresh" style="display: none;">
+					<p><span><em class="icon icon-refresh"></em><span class="refresh-text" id="dialogue-pull-down-label">下拉查看更多</span></span></p>
+				</li>
+			</ul>
+		</div>
+		<footer>
+			<div class="send-form">
+				<div class="outter">
+					<div id="dialogue-easy-msg" class="msg-auto">
+						<em class="icon icon-auto"></em>
+					</div>
+					<div class="msg-input">
+						<input id="dialogue-msg-txt" type="text" name="content" class="input" placeholder="请输入内容" value="">
+					</div>
+					<div class="msg-send">
+						<a tabIndex="-1" id="dialogue-send-msg" href="javascript:void(0)" class="send-btn">发送</a>
+					</div>
+				</div>
+			</div>
+			<div class="msg-diy">
+				<ul id="dialogue-easy-msg-ctn">
+					<li id="dialogue-add-easy-msg" class="diy-list list-curtorm">
+						<div class="list-text">
+							自定义回复
+						</div>
+						<em class="icon icon-custorm"></em>
+					</li>
+				</ul>
+			</div>
+		</footer>
+		<div id="mask"></div>
+		<div id="dialogue-add-easy-msg-ctn" class="add-msg-diy" style="display:none">
+			<div class="msg-diy-action clearfix">
+				<em class="icon icon-del"></em><span class="msg-diy-finish">完成</span>
+			</div>
+			<div class="msg-diy-input-box">
+				<textarea id="dialogue-new-easy-msg-text" class="msg-diy-input" placeholder="请输入自定义回复，40字以内哦"></textarea>
+			</div>
+			<span id="dialogue-easy-msg-word-count" class="msg-diy-counter">40</span>
+		</div>
+    </div>
+    <script src="http://sta.ganji.com/cgi/ng_sta.php?dirs=app/windbell,app/im&page=app/im/windBell/js/App"></script>
+</body>
+</html>
